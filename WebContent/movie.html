@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+	 $(function(){
+		 $('#btn').click(function(){
+			let API ="http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=f5eef3421c602c6cb7ea224104795888";
+			let data={
+						targetDt:$('#search').val()
+					 }
+						
+			
+    		$.getJSON(API,data,function(data,textStatus,xhr){
+				 	console.log(data);
+					console.log(textStatus);
+					console.log(xhr.readyState);
+				
+					$('#moviedisplay').empty();
+					
+					let table="<table border='1'>";
+			    	table+="<tr><th>순위</th><th>제목</th><th>개봉일</th><th>관객수</th></tr>"; 
+			    	
+			    	$.each(data.items,function(index,obj){
+			    		
+			    	table+="<tr>";
+			    		table+="<td>"+obj.rank+"</td>";
+			    		table+="<td>"+obj.movieNm+"</td>";
+			    		table+="<td>"+obj.openDt+"</td>";
+			    		table+="<td>"+obj.audiAcc+"</td>";
+			    	table+="</tr>";
+			    	});
+			    	
+			    	table+="</table>";
+				 
+			    	$('#moviedisplay').html(table); 
+			 });
+		 });
+	 });
+</script>
+</head>
+<body>
+<input type="text" id="search">
+	<input type ="button" value="검색" id="btn">
+	
+	<hr>
+	<div id ="moviedisplay"></div>
+</body>
+</html>
